@@ -7,7 +7,7 @@ import { features ,creditBenefits, testimonials } from "@/lib/data";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import Pricing from "@/components/pricing";
 
-export default function Home() {
+export default function Home () {
   return (
     <div className="bg-background">
       <section className="relative overflow-hidden py-22">
