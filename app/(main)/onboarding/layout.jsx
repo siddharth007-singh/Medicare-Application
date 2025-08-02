@@ -19,7 +19,7 @@ const OnboardingLayout = async ({ children }) => {
         } else if (user.role === "DOCTOR") {
             // Check verification status for doctors
             if (user.verificationStatus === "VERIFIED") {
-                redirect("/doctor");
+                redirect("/doctors");
             } else {
                 redirect("/doctor/verification");
             }

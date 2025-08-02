@@ -34,12 +34,11 @@ export const setUserRole = async (formData) => {
 
             revalidatePath('/');
             return { success: true, redirect: '/doctors', message: "Role updated to Patient" };
-        } s
+        }
 
         if (role === 'DOCTOR') {
-
             const speciality = formData.get('speciality');
-            const experience = formData.get('experience');
+            const experience = parseInt(formData.get('experience'), 10);
             const credentailUrl = formData.get('credentailUrl');
             const decscription = formData.get('decscription');
 
@@ -57,8 +56,8 @@ export const setUserRole = async (formData) => {
         }
     }
     catch (error) {
-        console.error("Error updating user role:", error);
-        throw new Error("Failed to update user role");
+        console.error("Failed to set user role:", error);
+        throw new Error(`Failed to update user profile: ${error.message}`);
     }
 }
 
@@ -86,3 +85,7 @@ export const getCurrentUser = async () => {
         throw new Error("Failed to fetch current user");
     }
 }
+
+
+
+// npg_9xe7yMQavuLk

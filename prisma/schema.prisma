@@ -30,7 +30,7 @@ model User{
 
   // Doctor related fields
   speciality String?
-  experience Int? 
+  experience String? 
   credentailUrl String? // URL to the doctor's certifications
   decscription String? @db.Text
   verificationStatus VerificationStatus? @default(PENDING) // PENDING, VERIFIED, REJECTED
