@@ -33,7 +33,7 @@ export const getAllPendingDoctors = async () => {
 
 
     try {
-        const pendingDoctors = await db.doctor.findMany({
+        const pendingDoctors = await db.user.findMany({
             where: {
                 role: "DOCTOR",
                 verificationStatus: "PENDING",
@@ -46,7 +46,7 @@ export const getAllPendingDoctors = async () => {
         return { doctors: pendingDoctors };
     }
     catch (error) {
-        throw new Error("Failed to fetch pending doctors");
+         throw new Error("Failed to fetch pending doctors");
     }
 }
 
@@ -56,7 +56,7 @@ export const getVerifiedDoctors = async () => {
     if (!isAdmin) throw new Error("Unauthorized");
 
     try{
-        const verifiedDoctors = await db.doctor.findMany({
+        const verifiedDoctors = await db.user.findMany({
             where: {
                 role: "DOCTOR",
                 verificationStatus: "VERIFIED",
