@@ -24,7 +24,7 @@ import { format } from "date-fns";
 import { updateDoctorStatus } from "@/actions/admin";
 import useFetch from "@/hooks/use-fetch";
 import { useEffect } from "react";
-// import { BarLoader } from "react-spinners";
+import { BarLoader } from "react-spinners";
 
 
 export const PendingDoctors = ({ doctors }) => {
@@ -39,7 +39,15 @@ export const PendingDoctors = ({ doctors }) => {
         setSelectedDoctor(null);
     }
 
-    const handleUpdateStatus = async (doctorId, status) => {}
+    const handleUpdateStatus = async (doctorId, status) => {
+        if (loading) return;
+
+        const formData = new FormData();
+        formData.append("doctorId", doctorId);
+        formData.append("status", status);
+
+        await submitStatusUpdate(formData);
+    }
 
     useEffect(() => {
     if (data && data?.success) {
