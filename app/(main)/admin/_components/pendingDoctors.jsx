@@ -82,7 +82,7 @@ export const PendingDoctors = ({ doctors }) => {
                                         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                                             <div className="flex items-center gap-3">
                                                 <div className="bg-muted/20 rounded-full p-2">
-                                                    <User className="h-5 w-5 text-emerald-400" />
+                                                    <img src={doctor.imageUrl} alt={doctor.name} className="h-10 w-10 rounded-full" />
                                                 </div>
                                                 <div>
                                                     <h3 className="font-medium text-white">

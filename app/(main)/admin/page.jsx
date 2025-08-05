@@ -24,6 +24,3 @@ const AdminPage = async() => {
 }
 
 export default AdminPage;
-
-
-// 2:37:53

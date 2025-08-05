@@ -132,6 +132,32 @@ export const updateDoctorActiveStatus = async (formData) => {
 }
 
 
+export const searchVerifiedDoctors = async (searchTerm) => {
+    const isAdmin = await verifyAdmin();
+    if (!isAdmin) throw new Error("Unauthorized");
+
+    try {
+        const doctors = await db.user.findMany({
+            where: {
+                role: "DOCTOR",
+                verificationStatus: "VERIFIED",
+                name: {
+                    contains: searchTerm,
+                    mode: "insensitive",
+                },
+            },
+            orderBy: {
+                name: "asc",
+            },
+        });
+
+        return { doctors };
+    } catch (error) {
+        console.error("Failed to search verified doctors:", error);
+        throw new Error("Failed to search verified doctors");
+    }
+}
+
 //Merge both the Fucntionality of updateDoctorStatus and updateDoctorActiveStatus
 // export const updateDoctorStatu = async (formData) => {
 //   const isAdmin = await verifyAdmin();
