@@ -3,6 +3,7 @@ import { PageHeader } from "@/components/page-header";
 import { getDoctorsBySpecialty } from "@/actions/doctorList";
 import React from "react";
 import { redirect } from "next/navigation";
+import DoctorCard from "@/components/doctors-card";
 
 export default async function DoctorSpecialtyPage({ params }) {
   const { speciality } = await params;
@@ -25,7 +26,9 @@ export default async function DoctorSpecialtyPage({ params }) {
 
       {doctors && doctors.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <h1>Doc Here</h1>
+            {doctors.map((doctor) => (
+              <DoctorCard key={doctor.id} doctor={doctor} />
+            ))}
         </div>
       ) : (
         <div className="text-center py-12">
