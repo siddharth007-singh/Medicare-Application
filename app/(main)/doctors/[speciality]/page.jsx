@@ -47,9 +47,3 @@ export default async function DoctorSpecialtyPage({ params }) {
 
   );
 }
-
-
-
-// {doctors.map((doctor) => (
-//             <DoctorCard key={doctor.id} doctor={doctor} />
-//           ))}
