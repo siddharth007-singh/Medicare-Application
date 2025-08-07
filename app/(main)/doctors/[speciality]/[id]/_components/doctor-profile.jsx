@@ -24,6 +24,8 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
 import { Alert, AlertDescription } from "@/components/ui/alert";
+import SlotPicker from './slot-picker';
+import AppointmentForm from './appointment-form';
 
 
 const DoctorProfile = ({ doctor, availableDays }) => {
@@ -49,8 +51,12 @@ const DoctorProfile = ({ doctor, availableDays }) => {
                 document.getElementById("booking-section")?.scrollIntoView({
                     behavior: "smooth",
                 });
-            }, timeout);
+            }, 300);
         }
+    }
+
+    const handleBookingComplete = () => {
+        router.push('/appointments');  // Redirect to appointments page after booking
     }
 
 
@@ -183,7 +189,11 @@ const DoctorProfile = ({ doctor, availableDays }) => {
 
                             <CardContent className="space-y-6">
                                 {totalSlots > 0 ? (
-                                    <></>
+                                    <>
+                                        {!selectSlot && <SlotPicker days={availableDays} onSelected={handleSlotSelect} />}   {/* For showing the slot picker if slot not selected */}
+
+                                        {selectSlot && (<AppointmentForm doctorId={doctor.id} slot={selectSlot} onBack={()=>setSelectSlot(null)} onComplete={handleBookingComplete} />)}   {/* For showing the appointment form, if slot selected */}
+                                    </>
                                 ) : (
                                     <div className="text-center py-6">
                                         <Calendar className="h-12 w-12 mx-auto text-muted-foreground mb-3" />
