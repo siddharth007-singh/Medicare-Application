@@ -99,3 +99,73 @@ export const checkAndAllocateCredits = async(user)=>{
         return null; // Handle error gracefully, maybe log it
     }
 }
+
+
+export const deductCreditsForAppointment = async(userId, doctorId)=>{
+    try{
+        const user = await db.user.findUnique({
+            where: { id: userId },
+        });
+
+        const doctor = await db.user.findUnique({
+            where: { id: doctorId },
+        });
+
+        if(user.credits < APPOINTMENT_CREDIT_COST) {
+            throw new Error("Insufficient credits for appointment");
+        }
+
+        if(!doctor) {
+            throw new Error("Doctor not found");    
+        }
+
+        // Deduct credits from user and add to doctor's earnings
+        const result = await db.$transaction(async (tx) => {
+            // Create a credit transaction for the user (deducting credits)
+            await tx.creditTransaction.create({
+                data: {
+                    userId: user.id,
+                    amount: -APPOINTMENT_CREDIT_COST,
+                    type: "APPOINTMENT_DEDUCTION",
+                }
+            });
+
+            // create a credit transaction for the doctor (adding earnings)
+            await tx.creditTransaction.create({
+                data: {
+                    userId: doctor.id,
+                    amount: APPOINTMENT_CREDIT_COST,
+                    type: "APPOINTMENT_DEDUCTION",
+                }
+            });
+
+            // Update patient's credit balance (decrement)
+            const updatedUser = await tx.user.update({
+                where: { id: user.id },
+                data: {
+                    credits: {
+                        decrement: APPOINTMENT_CREDIT_COST,
+                    }
+                }
+            });
+
+            // Update doctor's earnings (increment)
+            await tx.user.update({
+                where: { id: doctor.id },
+                data: {
+                    credits: {
+                        increment: APPOINTMENT_CREDIT_COST,
+                    }
+                }
+            });
+
+            return updatedUser;
+        });
+
+        return { success: true, user: result };
+    }
+    catch(error) {
+        console.error("Failed to deduct credits for appointment:", error);
+        throw new Error("Failed to deduct credits for appointment");
+    }
+}
