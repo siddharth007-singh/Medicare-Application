@@ -135,7 +135,7 @@ export const getAvailableTimeSlots = async (doctorId) => {
                 });
 
                 if (!overlaps) {
-                    availableSlotsByDay[dayString].push({
+                    availableSlotsDay[dayString].push({
                         startTime: current.toISOString(),
                         endTime: next.toISOString(),
                         formatted: `${format(current, "h:mm a")} - ${format(

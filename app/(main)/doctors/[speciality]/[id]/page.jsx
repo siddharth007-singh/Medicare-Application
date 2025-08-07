@@ -1,15 +1,30 @@
 import React from 'react';
-import {getDoctorById} from "@/actions/appointments";
+import {getAvailableTimeSlots, getDoctorById} from "@/actions/appointments";
+import { redirect } from 'next/navigation';
+import DoctorProfile from './_components/doctor-profile';
 
-const DoctorProfilePage = ({ params }) => {
+const DoctorProfilePage = async ({ params }) => {
 
-    const { id } = params;
+    const { id } = await params;
 
-    return (
-        <div>
-            <h1>Doctor Profile</h1>
-        </div>   
-    )
+    try{
+        const [doctorData, slotsData] = await Promise.all([
+            getDoctorById(id),
+            getAvailableTimeSlots(id),
+        ]);
+
+
+        return (
+            <DoctorProfile
+                doctor={doctorData.doctor}
+                availableDays={slotsData.days || []}
+            />
+        )
+    }
+    catch(error){
+        console.error("Error fetching doctor or slots:", error);
+        redirect('/doctors');
+    }
 }
 
 export default DoctorProfilePage;
