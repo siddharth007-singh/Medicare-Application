@@ -255,7 +255,7 @@ export const bookAppointment = async (formData) => {
             }
         });
 
-        if (overLappingAppointments) {
+        if (overLappingAppointments>0) {
             throw new Error("This time slot is already booked");
         }
 

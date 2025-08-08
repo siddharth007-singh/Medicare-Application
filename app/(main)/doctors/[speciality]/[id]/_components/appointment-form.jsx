@@ -26,6 +26,7 @@ const AppointmentForm = ({ doctorId, slot, onBack, onComplete }) => {
         formData.append("patientDescripption", patientDescripption);
 
         await submitBooking(formData);
+
     }
 
     useEffect(() => {
@@ -33,6 +34,9 @@ const AppointmentForm = ({ doctorId, slot, onBack, onComplete }) => {
             if (data.success) {
                 toast.success("Appointment booked successfully!");
                 onComplete();
+            }
+            else if(data.error){
+                toast.error(data.error || "Failed to book appointment. Please try again.");
             }
         }
     }, [data]);
