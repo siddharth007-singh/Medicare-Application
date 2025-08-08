@@ -6,6 +6,7 @@ import { addDays, addMinutes, format, isBefore, endOfDay } from "date-fns";
 import { deductCreditsForAppointment } from "./credits";
 import { Auth } from "@vonage/auth";
 import { Vonage } from "@vonage/server-sdk";
+import { revalidatePath } from "next/cache";
 
 
 
@@ -172,7 +173,7 @@ export const bookAppointment = async (formData) => {
     const { userId } = await auth();
 
     if (!userId) {
-        throw new Error("User not authenticated");
+        throw new Error("Unauthorized");
     }
 
     try {
