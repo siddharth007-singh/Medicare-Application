@@ -5,6 +5,7 @@ import { Calendar, Clock, DollarSign } from "lucide-react";
 import { getCurrentUser } from '@/actions/onboarding';
 import { getAvailabilitySlots, getDoctorAppointments } from '@/actions/doctor';
 import AvailabilitySettings from './_components/availability-settings';
+import DoctorAppointmentsList from "./_components/appointment-list";
 
 const DoctorDashboardPage = async () => {
   const user = await getCurrentUser();
@@ -49,7 +50,9 @@ const DoctorDashboardPage = async () => {
       </TabsList>
       <div className="md:col-span-3">
         <TabsContent value="appointments" className="border-none p-0">
-
+          <DoctorAppointmentsList
+            appointments={appointmentsData.appointments || []}
+          />
         </TabsContent>
         <TabsContent value="availability" className="border-none p-0">
           <AvailabilitySettings slots={availabilityData.slots || []} />
@@ -63,10 +66,6 @@ const DoctorDashboardPage = async () => {
 }
 
 export default DoctorDashboardPage
-
-          // <DoctorAppointmentsList
-          //   appointments={appointmentsData.appointments || []}
-          // />
 
 
 
